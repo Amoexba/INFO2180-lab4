@@ -1,10 +1,14 @@
 document.getElementById('searchBtn').addEventListener('click', () => {
-  fetch('superheroes.php')
-    .then(response => response.text()) 
-    .then(html => {
-      alert(html); 
+  const query = document.getElementById('searchInput').value.trim();
+
+  const safeQuery = encodeURIComponent(query);
+
+  fetch(`superheroes.php?query=${safeQuery}`)
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('result').innerHTML = data;
     })
     .catch(error => {
-      alert('Error fetching superheroes: ' + error.message);
+      document.getElementById('result').innerHTML = `<p>Error: ${error.message}</p>`;
     });
 });
